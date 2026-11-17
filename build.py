@@ -84,7 +84,7 @@ def pyinstaller(ffdir: Path) -> None:
     if SYSTEM == "Windows":
         args += ["--onedir", "--console", "--version-file", str(write_win_version())]
     elif SYSTEM == "Darwin":
-        args += ["--onedir", "--windowed", "--osx-bundle-identifier", "org.openviddl.app"]
+        args += ["--onedir", "--windowed", "--argv-emulation", "--osx-bundle-identifier", "org.openviddl.app"]
     else:
         args += ["--onefile", "--console"]
     print("→", " ".join(args[2:5]), "…")
@@ -132,6 +132,7 @@ def mac_background_app() -> None:
     plist_path = app / "Contents" / "Info.plist"
     with open(plist_path, "rb") as f:
         plist = plistlib.load(f)
+    plist["CFBundleURLTypes"] = [{"CFBundleURLName": "org.openviddl.app", "CFBundleURLSchemes": ["openviddl"]}]
     plist.update(LSUIElement=True, CFBundleShortVersionString=app_version(), CFBundleVersion=app_version(),
                  CFBundleDisplayName="OpenVidDL", NSHighResolutionCapable=True)
     with open(plist_path, "wb") as f:

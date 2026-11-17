@@ -25,7 +25,7 @@ import uuid
 import webbrowser
 from pathlib import Path
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 # --------------------------------------------------------------------------- version compilée (.exe / .app)
 FROZEN = getattr(sys, "frozen", False)
@@ -340,6 +340,42 @@ def local_request() -> bool:
     return request.remote_addr in ("127.0.0.1", "::1")
 
 
+# --------------------------------------------------------------------------- sécurité / extension navigateur
+EXTENSION_SCHEMES = ("chrome-extension://", "moz-extension://", "safari-web-extension://", "extension://")
+
+
+def origin_allowed(origin: str) -> bool:
+    """Autorise l'interface elle-même et l'extension OpenVidDL, refuse les autres sites web
+    (un site malveillant ne doit pas pouvoir lancer de téléchargements sur votre ordinateur)."""
+    if not origin or origin == "null":
+        return True  # requête directe (curl, ouverture de l'onglet…)
+    if origin.startswith(EXTENSION_SCHEMES):
+        return True
+    from urllib.parse import urlparse
+
+    return urlparse(origin).netloc == request.host
+
+
+@app.before_request
+def guard_origin():
+    if request.path.startswith("/api/") and not origin_allowed(request.headers.get("Origin", "")):
+        return jsonify(error="Origine non autorisée."), 403
+    if request.method == "OPTIONS":  # pré-vérification CORS de l'extension
+        return app.response_class(status=204)
+
+
+@app.after_request
+def cors_for_extension(resp):
+    origin = request.headers.get("Origin", "")
+    if origin.startswith(EXTENSION_SCHEMES):
+        resp.headers["Access-Control-Allow-Origin"] = origin
+        resp.headers["Access-Control-Allow-Methods"] = "GET, POST, DELETE, OPTIONS"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        resp.headers["Access-Control-Allow-Private-Network"] = "true"
+        resp.headers["Vary"] = "Origin"
+    return resp
+
+
 # --------------------------------------------------------------------------- routes
 @app.get("/")
 def index():
@@ -591,13 +627,18 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=int(os.environ.get("OPENVIDDL_PORT", "8765")))
     parser.add_argument("--output", "-o", default=str(DEFAULT_DIR), help="dossier de destination")
     parser.add_argument("--no-browser", action="store_true", help="ne pas ouvrir le navigateur")
+    parser.add_argument("--background", action="store_true",
+                        help="démarrer sans ouvrir l'interface (lancement depuis l'extension)")
+    parser.add_argument("uri", nargs="?", help=argparse.SUPPRESS)  # openviddl://… (lien de l'extension)
     args = parser.parse_args()
+    quiet_start = args.no_browser or args.background or bool(args.uri)
 
     probe = "127.0.0.1" if args.host in ("0.0.0.0", "::") else args.host
     if already_running(probe, args.port):
         # Double-clic alors que l'application tourne déjà : on rouvre simplement l'interface
         print("OpenVidDL est déjà lancé : ouverture de l'interface.")
-        webbrowser.open(f"http://{probe}:{args.port}")
+        if not quiet_start:
+            webbrowser.open(f"http://{probe}:{args.port}")
         return
     if not port_free(args.host, args.port):
         for p in range(args.port + 1, args.port + 50):
@@ -617,7 +658,7 @@ def main() -> None:
         print("  ⚠ Mode réseau : toute personne sur votre réseau local peut utiliser l'application.")
     print("  Pour quitter : bouton « Quitter » de l'interface" + (", ou fermez cette fenêtre.\n" if FROZEN else " ou Ctrl+C.\n"))
 
-    if not args.no_browser:
+    if not quiet_start:
         threading.Timer(1.2, lambda: webbrowser.open(url)).start()
 
     try:

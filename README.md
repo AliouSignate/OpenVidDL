@@ -15,6 +15,8 @@ Gratuit · Open source · Sans publicité · FFmpeg inclus
 <a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-Linux-x86_64.tar.gz"><img src="https://img.shields.io/badge/Linux-x86__64_(.tar.gz)-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Télécharger pour Linux" height="36"></a>
 <a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-Windows-portable.zip"><img src="https://img.shields.io/badge/Windows-Portable_(.zip)-5E5E5E?style=for-the-badge&logo=windows&logoColor=white" alt="Windows portable" height="36"></a>
 
+<a href="https://github.com/AliouSignate/OpenVidDL/releases/latest/download/OpenVidDL-Extension.zip"><img src="https://img.shields.io/badge/Extension-Chrome_·_Edge_·_Brave_·_Opera_·_Firefox-4F8CFF?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Extension navigateur" height="36"></a>
+
 <sub>Version 1.0.0 · <a href="https://github.com/AliouSignate/OpenVidDL/releases">toutes les versions</a> · aucun prérequis : ni Python, ni FFmpeg à installer</sub>
 
 <br><br>
@@ -39,6 +41,41 @@ Gratuit · Open source · Sans publicité · FFmpeg inclus
 > - **macOS :** faites un clic droit sur l'app, puis *Ouvrir* et *Ouvrir*. Si ça ne suffit pas, allez dans *Réglages Système → Confidentialité et sécurité* et cliquez sur *Ouvrir quand même*.
 
 Les fichiers arrivent dans **Téléchargements/OpenVidDL**. Pour arrêter l'application, utilisez le bouton **⏻ Quitter**.
+
+---
+
+## 🧩 Extension navigateur
+
+<img src="assets/extension.png" width="270" align="right" alt="Extension OpenVidDL">
+
+L'extension ajoute un bouton **OpenVidDL** dans la barre de votre navigateur et une entrée **« Télécharger avec OpenVidDL »** au clic droit sur une vidéo, un lien ou une page.
+
+- **Un clic** sur l'icône envoie la vidéo de l'onglet ouvert, avec le format et la qualité de votre choix.
+- **Clic droit** sur une vidéo, un lien ou une page : choix entre MP4 meilleure qualité, MP4 720p ou MP3.
+- **Notification** à la fin du téléchargement, et **badge** qui affiche le nombre de téléchargements en cours.
+- **Raccourci clavier** <kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>D</kbd>.
+- Si l'application est éteinte, l'extension la **démarre toute seule** (Windows et macOS).
+
+> L'extension sert de télécommande pour l'application OpenVidDL, **qui doit donc être installée** (boutons ci-dessus). Un navigateur n'a pas le droit d'exécuter lui-même le moteur de téléchargement ni FFmpeg.
+
+**Compatibilité :** Chrome, Edge, Brave, Opera, Vivaldi et autres navigateurs Chromium (version 121+), ainsi que Firefox 140+.
+
+### Installation
+
+**Chrome, Edge, Brave, Opera, Vivaldi**
+1. Téléchargez [`OpenVidDL-Extension.zip`](https://github.com/AliouSignate/OpenVidDL/releases/latest/download/OpenVidDL-Extension.zip) et **décompressez-le** dans un dossier que vous garderez (par exemple `Documents\OpenVidDL-Extension`).
+2. Ouvrez la page des extensions : `chrome://extensions` (Edge : `edge://extensions`, Opera : `opera://extensions`).
+3. Activez le **Mode développeur**, en haut à droite (dans la barre de gauche sous Edge).
+4. Cliquez sur **Charger l'extension non empaquetée**, puis sélectionnez le dossier décompressé.
+5. Épinglez l'icône 📌 : cliquez sur la pièce de puzzle, puis sur l'épingle à côté d'OpenVidDL.
+
+**Firefox**
+- *Installation permanente :* installez `OpenVidDL-Extension-Firefox.xpi` s'il est présent dans la [dernière version](https://github.com/AliouSignate/OpenVidDL/releases/latest). Ce fichier signé par Mozilla est publié automatiquement dès que des clés de signature sont configurées (voir *Créer les exécutables*).
+- *Test rapide :* allez sur `about:debugging#/runtime/this-firefox`, cliquez sur *Charger un module complémentaire temporaire…* et choisissez le fichier `manifest.json` du dossier décompressé. L'extension disparaît au redémarrage de Firefox.
+
+> **Boutiques officielles :** l'extension peut être publiée gratuitement sur [Firefox Add-ons](https://addons.mozilla.org/developers/) et [Microsoft Edge Add-ons](https://partner.microsoft.com/dashboard/microsoftedge/). Le **Chrome Web Store** refuse en revanche les extensions qui téléchargent depuis YouTube : sur Chrome, il faut donc passer par l'installation ci-dessus.
+
+<br clear="right">
 
 ---
 
@@ -85,6 +122,8 @@ Le fichier `.github/workflows/build.yml` compile Windows, macOS et Linux sur les
 1. Créez un dépôt sur GitHub et envoyez-y ce dossier (`git init`, `git add .`, `git commit -m "OpenVidDL"`, `git push`).
 2. Ouvrez l'onglet **Actions** : la compilation démarre seule (environ 10 minutes). Les exécutables sont ensuite téléchargeables dans la section **Artifacts**.
 3. Pour une version officielle, cliquez sur **Releases**, puis **Create a new release**. Saisissez un tag (ex. `v1.0.0`) et cliquez sur **Publish release**. Environ 10 minutes plus tard, l'installateur `.exe`, la version portable, le `.dmg` et le binaire Linux sont ajoutés automatiquement à la release.
+
+**Signature automatique de l'extension Firefox (facultatif) :** créez des clés API sur <https://addons.mozilla.org/developers/addon/api/key/>. Ajoutez-les ensuite au dépôt (*Settings → Secrets and variables → Actions*) sous les noms `AMO_JWT_ISSUER` et `AMO_JWT_SECRET`. Chaque release contiendra alors un `OpenVidDL-Extension-Firefox.xpi` signé, installable de façon permanente.
 
 ### Sur votre propre ordinateur
 Chaque système ne peut compiler que pour lui-même : le `.exe` se fabrique sous Windows, le `.dmg` sous macOS.

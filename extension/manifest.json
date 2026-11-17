@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "OpenVidDL – Téléchargeur de vidéos",
+  "short_name": "OpenVidDL",
+  "version": "1.1.0",
+  "description": "Téléchargez la vidéo de la page en un clic (MP4, MP3, MKV…) avec l'application libre OpenVidDL.",
+  "homepage_url": "https://github.com/AliouSignate/OpenVidDL",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "OpenVidDL",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "scripts": [
+      "shared.js",
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "notifications",
+    "alarms"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "optional_host_permissions": [
+    "http://*/*"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Ouvrir OpenVidDL"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "openviddl@aliousignate.github.io",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
+    }
+  }
+}

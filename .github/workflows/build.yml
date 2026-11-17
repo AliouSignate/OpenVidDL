@@ -78,9 +78,45 @@ jobs:
           tag_name: ${{ github.event.release.tag_name }}
           fail_on_unmatched_files: false
 
+  # Extension navigateur (Chrome, Edge, Brave, Opera, Vivaldi, Firefox)
+  extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Version de l'extension = version de l'application
+        run: |
+          VER=$(sed -nE 's/^__version__ = "([^"]+)"/\1/p' app.py)
+          jq --arg v "$VER" '.version = $v' extension/manifest.json > m.json && mv m.json extension/manifest.json
+      - name: Vérification (outil officiel Mozilla)
+        run: npx --yes web-ext@latest lint --source-dir extension
+      - name: Paquets
+        run: |
+          mkdir -p dist
+          (cd extension && zip -qr ../dist/OpenVidDL-Extension.zip .)
+      - name: Signature Firefox (si les clés addons.mozilla.org sont configurées)
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        if: github.event_name == 'release'
+        run: |
+          if [ -z "$AMO_JWT_ISSUER" ]; then echo "Clés AMO absentes : signature Firefox ignorée."; exit 0; fi
+          npx --yes web-ext@latest sign --source-dir extension --channel unlisted \
+            --api-key "$AMO_JWT_ISSUER" --api-secret "$AMO_JWT_SECRET" --artifacts-dir signed
+          cp signed/*.xpi dist/OpenVidDL-Extension-Firefox.xpi
+      - uses: actions/upload-artifact@v5
+        with:
+          name: OpenVidDL-Extension
+          path: dist/OpenVidDL-Extension*
+      - name: Publication de la release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: dist/OpenVidDL-Extension*
+
   # Après une release : met à jour les boutons de téléchargement de la page d'accueil (README)
   update-readme:
-    needs: build
+    needs: [build, extension]
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:

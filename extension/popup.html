@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>OpenVidDL</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" alt="" width="22" height="22">
+    <strong>Open<span class="accent">VidDL</span></strong>
+    <span class="spacer"></span>
+    <span id="state" class="state" title="État de l'application"><i></i><b>…</b></span>
+  </header>
+
+  <!-- Application éteinte / absente -->
+  <section id="offline" hidden>
+    <p class="big">L'application OpenVidDL n'est pas lancée.</p>
+    <p class="muted">L'extension envoie les vidéos à l'application installée sur votre ordinateur, qui s'occupe du téléchargement et de la conversion.</p>
+    <button id="btnStart" class="primary wide">▶ Démarrer OpenVidDL</button>
+    <p id="startHint" class="muted small" hidden></p>
+    <a id="lnkInstall" class="link" href="#" target="_blank" rel="noopener">Pas encore installée ? Télécharger OpenVidDL (gratuit)</a>
+  </section>
+
+  <!-- Application prête -->
+  <section id="online" hidden>
+    <div class="page">
+      <div id="pageTitle" class="title">—</div>
+      <div id="pageHost" class="muted small"></div>
+    </div>
+
+    <label class="small" for="url">Lien à télécharger</label>
+    <input id="url" type="url" spellcheck="false" placeholder="https://…">
+
+    <div class="row">
+      <div>
+        <label class="small" for="format">Format</label>
+        <select id="format">
+          <optgroup label="Vidéo">
+            <option value="mp4">MP4</option>
+            <option value="mkv">MKV</option>
+            <option value="webm">WEBM</option>
+            <option value="mov">MOV</option>
+            <option value="avi">AVI</option>
+            <option value="original">Original</option>
+          </optgroup>
+          <optgroup label="Audio">
+            <option value="mp3">MP3</option>
+            <option value="m4a">M4A</option>
+            <option value="opus">OPUS</option>
+            <option value="flac">FLAC</option>
+            <option value="wav">WAV</option>
+            <option value="ogg">OGG</option>
+          </optgroup>
+        </select>
+      </div>
+      <div>
+        <label class="small" for="quality">Qualité</label>
+        <select id="quality">
+          <option value="best">Meilleure</option>
+          <option value="2160">4K</option>
+          <option value="1440">1440p</option>
+          <option value="1080">1080p</option>
+          <option value="720">720p</option>
+          <option value="480">480p</option>
+          <option value="360">360p</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="checks">
+      <label><input type="checkbox" id="playlist"> Playlist entière</label>
+      <label><input type="checkbox" id="subtitles"> Sous-titres</label>
+    </div>
+
+    <button id="btnGo" class="primary wide">⬇ Télécharger</button>
+    <div id="msg" class="msg" hidden></div>
+
+    <div id="jobs"></div>
+
+    <div class="actions">
+      <button id="btnApp">Ouvrir l'application</button>
+      <button id="btnFolder">📂 Dossier</button>
+    </div>
+  </section>
+
+  <details id="settings">
+    <summary>Réglages</summary>
+    <label class="small" for="server">Adresse de l'application</label>
+    <input id="server" type="url" spellcheck="false">
+    <label class="small" for="cookies">Cookies (vidéos privées / 18+)</label>
+    <select id="cookies">
+      <option value="">Aucun</option>
+      <option value="chrome">Chrome</option>
+      <option value="firefox">Firefox</option>
+      <option value="edge">Edge</option>
+      <option value="brave">Brave</option>
+      <option value="opera">Opera</option>
+      <option value="vivaldi">Vivaldi</option>
+      <option value="safari">Safari</option>
+    </select>
+    <p class="muted small">Le format, la qualité et les sous-titres choisis ci-dessus sont mémorisés comme réglages par défaut (aussi pour le clic droit).</p>
+    <button id="btnSave">Enregistrer</button>
+    <div id="setMsg" class="msg" hidden></div>
+  </details>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

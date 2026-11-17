@@ -49,6 +49,13 @@ Name: "{autodesktop}\OpenVidDL"; Filename: "{app}\OpenVidDL.exe"; Tasks: desktop
 [Dirs]
 Name: "{%USERPROFILE}\Downloads\OpenVidDL"; Flags: uninsneveruninstall
 
+[Registry]
+; Lien openviddl:// : permet à l'extension navigateur de démarrer l'application
+Root: HKA; Subkey: "Software\Classes\openviddl"; ValueType: string; ValueName: ""; ValueData: "URL:OpenVidDL"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\openviddl"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""
+Root: HKA; Subkey: "Software\Classes\openviddl\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\OpenVidDL.exe,0"
+Root: HKA; Subkey: "Software\Classes\openviddl\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\OpenVidDL.exe"" --background ""%1"""
+
 [Run]
 Filename: "{app}\OpenVidDL.exe"; Description: "{cm:LaunchProgram,OpenVidDL}"; Flags: nowait postinstall skipifsilent
 
