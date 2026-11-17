@@ -59,7 +59,7 @@ Le fichier `.github/workflows/build.yml` compile Windows, macOS et Linux sur les
 
 1. Créez un dépôt sur GitHub et envoyez-y ce dossier (`git init`, `git add .`, `git commit -m "OpenVidDL"`, `git push`).
 2. Ouvrez l'onglet **Actions** : la compilation démarre seule (environ 10 minutes). Les exécutables sont ensuite téléchargeables dans la section **Artifacts**.
-3. Pour une version officielle, créez un tag : `git tag v1.0.0 && git push --tags`. Une **Release** publique est alors créée avec l'installateur `.exe`, le `.dmg` et le binaire Linux.
+3. Pour une version officielle, cliquez sur **Releases**, puis **Create a new release**. Saisissez un tag (ex. `v1.0.0`) et cliquez sur **Publish release**. Environ 10 minutes plus tard, l'installateur `.exe`, la version portable, le `.dmg` et le binaire Linux sont ajoutés automatiquement à la release.
 
 ### Sur votre propre ordinateur
 Chaque système ne peut compiler que pour lui-même : le `.exe` se fabrique sous Windows, le `.dmg` sous macOS.

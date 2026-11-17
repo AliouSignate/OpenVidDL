@@ -1,12 +1,14 @@
 # Construit automatiquement les exécutables Windows / macOS / Linux.
 #  - À chaque push : les fichiers sont disponibles dans l'onglet « Actions » (section Artifacts).
-#  - En publiant un tag (ex. v1.0.0) : une « Release » GitHub est créée avec les exécutables à télécharger.
+#  - En publiant une « Release » sur GitHub (bouton « Create a new release », tag ex. v1.0.0) :
+#    les exécutables sont compilés puis ajoutés automatiquement à la page de téléchargement.
 name: Build executables
 
 on:
   push:
     branches: [main, master]
-    tags: ["v*"]
+  release:
+    types: [published]
   pull_request:
   workflow_dispatch:
 
@@ -67,10 +69,11 @@ jobs:
           if-no-files-found: error
 
       - name: Publication de la release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           files: |
             ${{ matrix.files }}
             dist/OpenVidDL-Windows-portable.zip
+          tag_name: ${{ github.event.release.tag_name }}
           fail_on_unmatched_files: false
