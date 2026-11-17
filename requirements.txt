@@ -1,0 +1,4 @@
+flask>=3.0
+waitress>=3.0
+yt-dlp[default]>=2025.1.1
+static-ffmpeg>=2.5

@@ -1,0 +1,9 @@
+services:
+  openviddl:
+    build: .
+    container_name: openviddl
+    ports:
+      - "8765:8765"
+    volumes:
+      - ./downloads:/downloads
+    restart: unless-stopped
