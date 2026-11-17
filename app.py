@@ -42,12 +42,6 @@ if FROZEN:
         _log = open(USER_DIR / "openviddl.log", "a", encoding="utf-8", buffering=1)
         sys.stdout = sys.stdout or _log
         sys.stderr = sys.stderr or _log
-    # Accents et symboles sans plantage, quelle que soit la console
-    for _s in (sys.stdout, sys.stderr):
-        try:
-            _s.reconfigure(errors="replace", line_buffering=True)
-        except Exception:
-            pass
     # FFmpeg embarqué dans l'exécutable
     _ff = BASE_DIR / "ffmpeg"
     if _ff.is_dir():
@@ -56,6 +50,13 @@ if FROZEN:
     _wheels = sorted(ENGINE_DIR.glob("yt_dlp-*.whl"), key=lambda p: p.stat().st_mtime) if ENGINE_DIR.is_dir() else []
     if _wheels:
         sys.path.insert(0, str(_wheels[-1]))
+
+# Accents et symboles sans plantage, quelle que soit la console (Windows cp1252, redirections…)
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(errors="replace", line_buffering=True)
+    except Exception:
+        pass
 
 try:
     from flask import Flask, abort, jsonify, render_template, request, send_file

@@ -22,6 +22,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Console Windows (cp1252) : évite les plantages sur les symboles ✓ → ❌
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 ROOT = Path(__file__).resolve().parent
 BUILD = ROOT / "build"
 DIST = ROOT / "dist"
@@ -94,7 +101,7 @@ def write_win_version() -> Path:
   ffi=FixedFileInfo(filevers=({tup}), prodvers=({tup})),
   kids=[StringFileInfo([StringTable('040C04B0', [
     StringStruct('CompanyName', 'OpenVidDL'),
-    StringStruct('FileDescription', 'OpenVidDL - Téléchargeur de vidéos'),
+    StringStruct('FileDescription', 'OpenVidDL - Video downloader'),
     StringStruct('FileVersion', '{v}'),
     StringStruct('ProductName', 'OpenVidDL'),
     StringStruct('ProductVersion', '{v}'),

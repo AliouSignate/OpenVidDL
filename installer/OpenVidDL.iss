@@ -1,4 +1,4 @@
-; Installateur Windows d'OpenVidDL (Inno Setup 6) — généré par build.py
+﻿; Installateur Windows d'OpenVidDL (Inno Setup 6) — généré par build.py
 ; Compilation manuelle :  iscc /DAppVersion=1.0.0 installer\OpenVidDL.iss
 
 #ifndef AppVersion
