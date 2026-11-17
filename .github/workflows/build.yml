@@ -77,3 +77,27 @@ jobs:
             dist/OpenVidDL-Windows-portable.zip
           tag_name: ${{ github.event.release.tag_name }}
           fail_on_unmatched_files: false
+
+  # Après une release : met à jour les boutons de téléchargement de la page d'accueil (README)
+  update-readme:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Liens vers la nouvelle version
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          VER=$(sed -nE 's/^__version__ = "([^"]+)"/\1/p' app.py)
+          sed -i -E \
+            -e "s#releases/download/[^/]+/#releases/download/${TAG}/#g" \
+            -e "s#OpenVidDL-Setup-[0-9][0-9A-Za-z.-]*\.exe#OpenVidDL-Setup-${VER}.exe#g" \
+            -e "s#<sub>Version [^ ]+ ·#<sub>Version ${VER} ·#" \
+            README.md
+          if git diff --quiet; then echo "README déjà à jour"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "README : liens de téléchargement vers ${TAG}"
+          git push

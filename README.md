@@ -1,6 +1,48 @@
-# ⬇ OpenVidDL
+<div align="center">
 
-**Téléchargeur de vidéos libre et open source.** Collez un lien, choisissez le format, cliquez sur *Télécharger*.
+<img src="assets/icon.png" width="110" alt="OpenVidDL">
+
+# OpenVidDL
+
+**Téléchargez des vidéos depuis plus de 1 700 sites, en MP4, MP3 et tous les formats courants.**<br>
+Gratuit · Open source · Sans publicité · FFmpeg inclus
+
+## ⬇️ Télécharger
+
+<a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-Setup-1.0.0.exe"><img src="https://img.shields.io/badge/Windows-Installer_(.exe)-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Télécharger pour Windows" height="46"></a>
+
+<a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-macOS.dmg"><img src="https://img.shields.io/badge/macOS-Apple_Silicon_(.dmg)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Télécharger pour macOS" height="36"></a>
+<a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-Linux-x86_64.tar.gz"><img src="https://img.shields.io/badge/Linux-x86__64_(.tar.gz)-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Télécharger pour Linux" height="36"></a>
+<a href="https://github.com/AliouSignate/OpenVidDL/releases/download/v1.0.0/OpenVidDL-Windows-portable.zip"><img src="https://img.shields.io/badge/Windows-Portable_(.zip)-5E5E5E?style=for-the-badge&logo=windows&logoColor=white" alt="Windows portable" height="36"></a>
+
+<sub>Version 1.0.0 · <a href="https://github.com/AliouSignate/OpenVidDL/releases">toutes les versions</a> · aucun prérequis : ni Python, ni FFmpeg à installer</sub>
+
+<br><br>
+
+<img src="assets/screenshot.png" width="760" alt="Capture d'écran d'OpenVidDL">
+
+</div>
+
+---
+
+## ⚡ Installation en 3 étapes
+
+1. **Téléchargez** le fichier de votre système avec les boutons ci-dessus.
+2. **Installez-le** :
+   - **Windows :** double-cliquez sur `OpenVidDL-Setup-…exe`, puis *Suivant* et *Installer*. Une icône apparaît sur le bureau, et aucun droit administrateur n'est demandé.
+   - **macOS :** ouvrez le `.dmg` et glissez **OpenVidDL** dans *Applications*.
+   - **Linux :** décompressez l'archive, puis lancez `./OpenVidDL`.
+3. **Lancez OpenVidDL** : l'interface s'ouvre dans votre navigateur. Collez un lien, choisissez le format et cliquez sur **Télécharger**.
+
+> **Avertissement au premier lancement :** l'application n'est pas signée par un certificat payant.
+> - **Windows (SmartScreen) :** cliquez sur *Informations complémentaires*, puis *Exécuter quand même*.
+> - **macOS :** faites un clic droit sur l'app, puis *Ouvrir* et *Ouvrir*. Si ça ne suffit pas, allez dans *Réglages Système → Confidentialité et sécurité* et cliquez sur *Ouvrir quand même*.
+
+Les fichiers arrivent dans **Téléchargements/OpenVidDL**. Pour arrêter l'application, utilisez le bouton **⏻ Quitter**.
+
+---
+
+## ✨ Fonctionnalités
 
 - 🌍 **Plus de 1 700 sites** : YouTube, TikTok, Instagram, Facebook, X/Twitter, Vimeo, Dailymotion, Twitch, Reddit, SoundCloud, Bilibili, sites d'actualités… ainsi que les liens directs vers des fichiers vidéo et les flux HLS/DASH (`.m3u8`, `.mpd`).
 - 🎞 **Tous les formats courants** :
@@ -17,26 +59,9 @@ Le moteur est [yt-dlp](https://github.com/yt-dlp/yt-dlp), et les conversions son
 
 ---
 
-## 🚀 Installation
+## 🐍 Autres méthodes d'installation
 
-### ✅ Le plus simple : l'installateur (sans Python, FFmpeg inclus)
-
-Téléchargez le fichier correspondant à votre système dans la page **[Releases](../../releases/latest)** :
-
-| Système | Fichier | Comment faire |
-|---|---|---|
-| **Windows 10/11** | `OpenVidDL-Setup-x.y.z.exe` | Double-cliquez, puis *Suivant → Installer*. Une icône apparaît sur le bureau et dans le menu Démarrer. Aucun droit administrateur n'est nécessaire. |
-| Windows (portable) | `OpenVidDL-Windows-portable.zip` | Décompressez, puis lancez `OpenVidDL.exe` (rien n'est installé, fonctionne depuis une clé USB). |
-| **macOS** (Apple Silicon) | `OpenVidDL-macOS.dmg` | Ouvrez le .dmg et glissez **OpenVidDL** dans *Applications*. |
-| **Linux** (x86_64) | `OpenVidDL-Linux-x86_64.tar.gz` | `tar xzf OpenVidDL-Linux-*.tar.gz && ./OpenVidDL` |
-
-L'application ouvre automatiquement son interface dans votre navigateur. Si vous la relancez alors qu'elle tourne déjà, elle rouvre simplement l'interface. Pour l'arrêter, utilisez le bouton **⏻ Quitter**.
-
-> **Premier lancement :** l'application n'est pas signée par un certificat payant, donc le système affiche un avertissement.
-> - **Windows (SmartScreen) :** cliquez sur *Informations complémentaires*, puis *Exécuter quand même*.
-> - **macOS :** faites un clic droit sur l'app, puis *Ouvrir* et *Ouvrir*. Si ça ne suffit pas, allez dans *Réglages Système → Confidentialité et sécurité* et cliquez sur *Ouvrir quand même*.
-
-### 🐍 Depuis le code source (Python 3.10+)
+### Depuis le code source (Python 3.10+)
 
 | Windows | macOS / Linux |
 |---|---|
@@ -44,7 +69,7 @@ L'application ouvre automatiquement son interface dans votre navigateur. Si vous
 
 > Sur Debian/Ubuntu, si l'installeur le demande : `sudo apt install python3 python3-venv`
 
-### 🐳 Docker (serveur, NAS…)
+### Docker (serveur, NAS…)
 ```bash
 docker compose up -d
 # puis ouvrez http://localhost:8765. Les fichiers arrivent dans ./downloads
